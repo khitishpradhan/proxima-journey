@@ -1,11 +1,12 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Stars } from '@react-three/drei';
-import { useRef, useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Stars } from '@react-three/drei';
+import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
+import ManualControls from './ManualControls';
 
 // SimulationCanvas component where everything is wrapped inside the Canvas
 export default function SimulationCanvas() {
@@ -46,7 +47,7 @@ export default function SimulationCanvas() {
         <Stars radius={100} depth={50} count={5000} factor={4} fade />
         <ShipController shipRef={shipRef}/>
         { !isManualControl && <CameraController shipRef={shipRef}/> }
-        <OrbitControls enabled={isManualControl} enableZoom={true} />
+        <ManualControls shipRef={shipRef} isManual={isManualControl} />
       </Canvas>
     </>
   );
