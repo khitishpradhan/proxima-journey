@@ -24,9 +24,9 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 
 ### 3. **Add Camera Movement**
 - ✅ Animate the camera movement so that it feels like the ship is traveling through space.
-  - Ship moves forward.
-  - Adjust the scene to give a sense of scale (depth, stars).
-  - Implement a manual camera control button icon, to let the user move around the scene if they want to. 
+  - ✅ Ship moves forward.
+  - ✅ Adjust the scene to give a sense of scale (depth, stars).
+  - ✅ Implement a manual camera control button icon, to let the user move around the scene if they want to. 
   
 ---
 

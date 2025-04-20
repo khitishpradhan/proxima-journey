@@ -42,12 +42,20 @@ export default function SimulationCanvas() {
 
 
       <Canvas>
+        {/* Canvas Environment Setup */}
         <color attach="background" args={['black']} />
+        <fog attach="fog" args={['black', 10, 200]} />
         <ambientLight />
-        <Stars radius={100} depth={50} count={5000} factor={4} fade />
+
+        {/* Rendering Stars here */}
+        <Stars radius={50} depth={20} count={1200} factor={1} fade />
+        <Stars radius={100} depth={50} count={4000} factor={3} fade />
+        <Stars radius={200} depth={100} count={800} factor={5} fade />
+
+        {/* Moving Parts, Ship & Camera Controls  */}
         <ShipController shipRef={shipRef}/>
         { !isManualControl && <CameraController shipRef={shipRef}/> }
-        <ManualControls shipRef={shipRef} isManual={isManualControl} />
+        <ManualControls shipRef={shipRef} isManualControl={isManualControl} />
       </Canvas>
     </>
   );
