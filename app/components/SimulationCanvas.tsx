@@ -5,6 +5,7 @@ import { Stars } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import SceneSetup from './SceneSetup';
+import LightsSetup from './LightSetup';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
 import ManualControls from './ManualControls';
@@ -43,9 +44,9 @@ export default function SimulationCanvas() {
 
 
       <Canvas>
-        {/* Canvas Environment Setup */}
+        {/* Scene and Lighting Setup */}
         <SceneSetup />
-        <ambientLight />
+        <LightsSetup />
 
         {/* Rendering Stars here */}
         <Stars radius={50} depth={20} count={1200} factor={1} fade />
