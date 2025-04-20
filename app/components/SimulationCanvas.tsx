@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
+import SceneSetup from './SceneSetup';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
 import ManualControls from './ManualControls';
@@ -43,8 +44,7 @@ export default function SimulationCanvas() {
 
       <Canvas>
         {/* Canvas Environment Setup */}
-        <color attach="background" args={['black']} />
-        <fog attach="fog" args={['black', 10, 200]} />
+        <SceneSetup />
         <ambientLight />
 
         {/* Rendering Stars here */}
