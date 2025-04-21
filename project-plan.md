@@ -31,26 +31,28 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 ---
 
 ### 4. <strike>**Add Sliders for Control**</strike> **Destination, Travel Time and Simulation** 
-- 🟩 Add **Destination** Selector (dropdown), default to Proxima Centauri(4.246 light-years).
-  - Add a **Speed Slider** (% of speed of light) .
-    - Range from 1% to 99.9%.
-  - Automatically **calculate travel time** based on the speed and destination.
+- ✅ Add **Destination** Selector (dropdown), default to Proxima Centauri(4.246 light-years).
+  - ✅ Add a **Speed Slider** (% of speed of light) .
+    - ✅ Range from 1% to 99.9%.
+  - ✅ Automatically **calculate travel time** based on the speed and destination.
   - Define and Add a **Simulated Time Scale**.
     - Eg.  **8.493 years real travel → 30 seconds of animation**
     - UI shows **simulated year counter** updating in real time.
-  - Add **Star Journey** button that starts the simulation of the space travel.
-  - **Auto Camera mode activates** whenever the journey starts.
+  - ✅ Add **Star Journey** button that starts the simulation of the space travel(Only created a placeholder function with basic setup, for simulating we need 2 points start(earth) and destination(proxima)).
+  - ✅ **Auto Camera mode activates** whenever the journey starts.
 
 ---
 
 ### 5. **Space Warp Effects**
-- 🟩 Add **motion blur or streaks** to simulate faster-than-light travel (e.g., hyperspace).
-- 🟩 Implement a **camera motion effect** to show dramatic speed changes.
+- Add **motion blur or streaks** to simulate faster-than-light travel (e.g., hyperspace).
+- Implement a **camera motion effect** to show dramatic speed changes.
   
 ---
 
 ### 6. **Add Destination (Star) and Planets**
 - 🟩 Add a **distant star (Proxima Centauri)** or planet as a destination.
+  - Add Earth, Proxima Centauri, and Earth's Sun destination points.
+  - Add 3D models for them.
 - 🟩 Visualize **distance** between the ship and the target.
 - 🟩 Show **progress** toward the destination as the user adjusts speed or time.
 
@@ -71,7 +73,10 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 ---
 
 ## BrainStorming and Notes by/for self
-🔮 Simulation Enhancements:
+
+**These are just brainstorming notes, somethings might not even make sense here, these are just things to pique the curiosity of myself and future contributors**
+
+🔮 Simulation Enhancements :
 
 - ⏯️ Pause/Resume simulation
 - ⚙️ User-adjustable time scale (e.g., speed up/down simulation)
@@ -79,11 +84,16 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - 🕒 Relativity effects (time dilation UI, like “1 year for ship = X years for Earth”)
 - 🌍 Earth clock vs ship clock
 
-🧪 Destination System🪐 Add more destination objects with:
+🧪 Destination System🪐 Add more destination objects with :
 - Distance
 - Image
 - Description
 - Real-world metadata
+
+🌍 Future Plans only for Earth (Little Ambitious ones) :
+- Integrating  Google Earth, or Map view when a user pin points on the Earth.
+- View of a Launch Simulation with location specific POV, with information about each stages.
+- View of Sun(location specific POV)
 
 ## Status
 

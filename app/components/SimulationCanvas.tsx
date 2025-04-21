@@ -25,6 +25,9 @@ export default function SimulationCanvas() {
     console.log('Starting journey to', destination, 'at', speed, '% of light');
     console.log('It\'s going to take', travelTime, 'years to reach our destination');
     // simulation logic here later
+
+    // Setting Camera Control to Auto
+    if (isManualControl) setIsManualControl(false);
   };
 
   return (
