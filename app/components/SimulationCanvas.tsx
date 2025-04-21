@@ -10,6 +10,7 @@ import ShipController from './ShipController';
 import CameraController from './CameraController';
 import ManualControls from './ManualControls';
 import SimulationControls from './SimulationControls';
+import { SimulationControlsParams } from './SimulationControls';
 
 // SimulationCanvas component where everything is wrapped inside the Canvas
 export default function SimulationCanvas() {
@@ -20,8 +21,9 @@ export default function SimulationCanvas() {
     setIsManualControl(prev => !prev);
   };
 
-  const handleJourneyStart = ({ destination, speed }: { destination: string, speed: number }) => {
+  const handleJourneyStart = ({ destination, speed, travelTime }: SimulationControlsParams) => {
     console.log('Starting journey to', destination, 'at', speed, '% of light');
+    console.log('It\'s going to take', travelTime, 'years to reach our destination');
     // simulation logic here later
   };
 

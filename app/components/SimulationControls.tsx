@@ -1,16 +1,28 @@
-import { useState, ChangeEvent  } from 'react';
+import { useState, ChangeEvent, useEffect  } from 'react';
+
+export type SimulationControlsParams = {
+  destination: string;
+  speed: number;
+  travelTime: number;
+};
+
+type SimulationControlsProps = {
+  onStartJourney: (params: SimulationControlsParams) => void;
+}
+
 
 const destinations = [
-  { name: 'Proxima Centauri', distance: 4.24 }, // Light years
+  { name: 'Proxima Centauri', distance: 4.243 }, // Light years
   // Will Add more later, maybe after I add some actual planets, expected destinations like Gaia BH1
 ];
 
-export default function SimulationControls({ onStartJourney }: { onStartJourney: (params: { destination: string, speed: number }) => void }) {
+export default function SimulationControls({ onStartJourney }: SimulationControlsProps) {
   const [selectedDestination, setSelectedDestination] = useState(destinations[0]);
   const [speed, setSpeed] = useState(10); // % of speed of light
+  const [travelTime, setTravelTime] = useState(0) // in Years
 
   const handleStart = () => {
-    onStartJourney({ destination: selectedDestination.name, speed });
+    onStartJourney({ destination: selectedDestination.name, speed, travelTime });
   };
 
   // Using ChangeEvent type for the first time, typescript strict pushes to learn new things. lol
@@ -22,6 +34,13 @@ export default function SimulationControls({ onStartJourney }: { onStartJourney:
     // seems overkill for now though
     setSelectedDestination(selectedObject)
   }
+
+  useEffect(() => {
+    // We divide speed by 100 taking while C = 1 light-year/year, since our speed here is in % of C and 100% = 1C(speed of light).
+    // TODO: Need actual numbers for doing physics in near future.
+    const time = parseFloat((selectedDestination.distance / (speed / 100)).toFixed(2));
+    setTravelTime(time)
+  }, [selectedDestination, speed])
 
   return (
     <div className="absolute top-5 left-5 bg-black bg-opacity-100 rounded-lg text-white space-y-4 z-50">
@@ -54,6 +73,9 @@ export default function SimulationControls({ onStartJourney }: { onStartJourney:
           className="w-full"
         />
       </div>
+
+      {/* Display Travel Time */}
+      <p>Travel Time (in years): {travelTime}</p>
 
       {/* Start Journey Button */}
       <button
