@@ -9,6 +9,7 @@ import LightsSetup from './LightSetup';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
 import ManualControls from './ManualControls';
+import SimulationControls from './SimulationControls';
 
 // SimulationCanvas component where everything is wrapped inside the Canvas
 export default function SimulationCanvas() {
@@ -17,6 +18,11 @@ export default function SimulationCanvas() {
 
   const toggleControlMode = () => {
     setIsManualControl(prev => !prev);
+  };
+
+  const handleJourneyStart = ({ destination, speed }: { destination: string, speed: number }) => {
+    console.log('Starting journey to', destination, 'at', speed, '% of light');
+    // simulation logic here later
   };
 
   return (
@@ -42,7 +48,7 @@ export default function SimulationCanvas() {
       </button>
 
 
-
+      <SimulationControls onStartJourney={handleJourneyStart}/>
       <Canvas>
         {/* Scene and Lighting Setup */}
         <SceneSetup />
