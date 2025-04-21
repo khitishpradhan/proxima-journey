@@ -31,11 +31,15 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 ---
 
 ### 4. **Add Sliders for Control**
-- 🟩 Add **speed, distance, and travel time sliders**:
-  - Control the **ship’s movement** and **speed**.
-  - Set the **destination** and **total journey time**.
-  - Change the **camera speed** based on user input.
-  - Make the camera control automatic when the sliders are set by the user and when they click to start the journey.(Might need to move this sub-point to a different parent-point in future)
+- 🟩 Add **Destination** Selector (dropdown), default to Proxima Centauri(4.246 light-years).
+  - Add a **Speed Slider** (% of speed of light) .
+    - Range from 1% to 99.9%.
+  - Automatically calculate travel time based on the speed and destination.
+  - Define and Add a Simulated Time Scale.
+    - Eg.  **8.493 years real travel → 30 seconds of animation**
+    - UI shows **simulated year counter** updating in real time.
+  - Add **Star Journey** button that starts the simulation of the space travel.
+  - Auto Camera mode activates whenever the journey starts/
 
 ---
 
@@ -65,6 +69,21 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - 🟩 Implement **simulation pauses** and **time dilation** for deeper educational purposes.
 
 ---
+
+## BrainStorming and Notes by/for self
+🔮 Simulation Enhancements:
+
+- ⏯️ Pause/Resume simulation
+- ⚙️ User-adjustable time scale (e.g., speed up/down simulation)
+- 🌀 Add star distortion / warp effects at higher speeds
+- 🕒 Relativity effects (time dilation UI, like “1 year for ship = X years for Earth”)
+- 🌍 Earth clock vs ship clock
+
+🧪 Destination System🪐 Add more destination objects with:
+- Distance
+- Image
+- Description
+- Real-world metadata
 
 ## Status
 
