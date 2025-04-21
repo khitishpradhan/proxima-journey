@@ -30,18 +30,7 @@ export default function SimulationCanvas() {
     <>
       {/* Toggle Button */}
       <button
-        style={{
-          position: 'absolute',
-          top: 20,
-          right: 20,
-          zIndex: 10,
-          padding: '0.5rem 1rem',
-          backgroundColor: '#222',
-          color: 'white',
-          border: 'none',
-          borderRadius: '0.25rem',
-          cursor: 'pointer'
-        }}
+        className='absolute top-5 right-5 z-10 p-4 bg-gray-900/85 hover:bg-gray-700 rounded cursor-pointer'
         onClick={toggleControlMode}
       >
         {isManualControl ? 'Auto Camera' : 'Manual Camera'}

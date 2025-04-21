@@ -24,7 +24,7 @@ export default function SimulationControls({ onStartJourney }: { onStartJourney:
   }
 
   return (
-    <div className="absolute top-5 left-5 bg-black bg-opacity-70 p-4 rounded-lg text-white space-y-4 z-50">
+    <div className="absolute top-5 left-5 bg-black bg-opacity-100 rounded-lg text-white space-y-4 z-50">
       {/* Destination Dropdown */}
       <div>
         <label className="block mb-1">Destination</label>
@@ -58,7 +58,7 @@ export default function SimulationControls({ onStartJourney }: { onStartJourney:
       {/* Start Journey Button */}
       <button
         onClick={handleStart}
-        className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded font-semibold"
+        className="w-full bg-gray-800/85 hover:bg-gray-700 p-2 rounded font-semibold"
       >
         Start Journey
       </button>
