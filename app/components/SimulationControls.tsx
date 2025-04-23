@@ -4,10 +4,13 @@ export type SimulationControlsParams = {
   destination: string;
   speed: number;
   travelTime: number;
+
 };
 
 type SimulationControlsProps = {
   onStartJourney: (params: SimulationControlsParams) => void;
+  simulatedYear: number;
+  isJourneyActive: boolean;
 }
 
 
@@ -16,7 +19,7 @@ const destinations = [
   // Will Add more later, maybe after I add some actual planets, expected destinations like Gaia BH1
 ];
 
-export default function SimulationControls({ onStartJourney }: SimulationControlsProps) {
+export default function SimulationControls({ onStartJourney, simulatedYear, isJourneyActive }: SimulationControlsProps) {
   const [selectedDestination, setSelectedDestination] = useState(destinations[0]);
   const [speed, setSpeed] = useState(10); // % of speed of light
   const [travelTime, setTravelTime] = useState(0) // in Years
@@ -76,6 +79,9 @@ export default function SimulationControls({ onStartJourney }: SimulationControl
 
       {/* Display Travel Time */}
       <p>Travel Time (in years): {travelTime}</p>
+
+      {/* Simulated Year */}
+      <p>Simulated Year (in seconds): {simulatedYear}</p>
 
       {/* Start Journey Button */}
       <button

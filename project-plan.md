@@ -83,6 +83,9 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - 🌀 Add star distortion / warp effects at higher speeds
 - 🕒 Relativity effects (time dilation UI, like “1 year for ship = X years for Earth”)
 - 🌍 Earth clock vs ship clock
+- Smooth fade-out after journey completion.
+- Add a timeline or progress bar.
+- Let users speed up/down the sim (e.g., 2x, 4x).
 
 🧪 Destination System🪐 Add more destination objects with :
 - Distance

@@ -12,10 +12,15 @@ import ManualControls from './ManualControls';
 import SimulationControls from './SimulationControls';
 import { SimulationControlsParams } from './SimulationControls';
 
+//CONSTANTS
+const SIM_DURATION_SECONDS = 30; // Simulated journey time in seconds
+
 // SimulationCanvas component where everything is wrapped inside the Canvas
 export default function SimulationCanvas() {
   const shipRef = useRef<THREE.Mesh>(null!); // Shared ref so that we have the latest ref for both the Ship and Camera.
   const [isManualControl, setIsManualControl] = useState(false);
+  const [simulatedYear, setSimulatedYear] = useState(0);
+  const [isJourneyActive, setIsJourneyActive] = useState(false);
 
   const toggleControlMode = () => {
     setIsManualControl(prev => !prev);
@@ -28,6 +33,28 @@ export default function SimulationCanvas() {
 
     // Setting Camera Control to Auto
     if (isManualControl) setIsManualControl(false);
+
+    const startTime = performance.now();
+    const endTime = startTime + SIM_DURATION_SECONDS * 1000;
+    const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000); // Convert to ms-based update
+  
+    setIsJourneyActive(true);
+  
+    const animate = (now: number) => {
+      if (now >= endTime) {
+        setSimulatedYear(travelTime);
+        setIsJourneyActive(false);
+        return;
+      }
+  
+      const elapsed = now - startTime;
+      const currentYear = parseFloat((elapsed * yearsPerMs).toFixed(2)); // 2 decimal places
+      setSimulatedYear(currentYear);
+  
+      requestAnimationFrame(animate);
+    };
+  
+    requestAnimationFrame(animate);
   };
 
   return (
@@ -42,7 +69,11 @@ export default function SimulationCanvas() {
       </button>
 
 
-      <SimulationControls onStartJourney={handleJourneyStart}/>
+      <SimulationControls
+        onStartJourney={handleJourneyStart}
+        simulatedYear={simulatedYear}
+        isJourneyActive={isJourneyActive}
+      />
       <Canvas>
         {/* Scene and Lighting Setup */}
         <SceneSetup />
