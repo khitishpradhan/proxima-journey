@@ -13,11 +13,14 @@ import SimulationControls from './SimulationControls';
 import { SimulationControlsParams } from './SimulationControls';
 
 //CONSTANTS
-const SIM_DURATION_SECONDS = 30; // Simulated journey time in seconds
+// This is the actual time the simulation will take reagardless of the travel time
+const SIM_DURATION_SECONDS = 30;
 
 // SimulationCanvas component where everything is wrapped inside the Canvas
 export default function SimulationCanvas() {
   const shipRef = useRef<THREE.Mesh>(null!); // Shared ref so that we have the latest ref for both the Ship and Camera.
+  const animationFrameRef = useRef<number | null>(null); // For canceling animation
+
   const [isManualControl, setIsManualControl] = useState(false);
   const [simulatedYear, setSimulatedYear] = useState(0);
   const [isJourneyActive, setIsJourneyActive] = useState(false);
@@ -29,32 +32,36 @@ export default function SimulationCanvas() {
   const handleJourneyStart = ({ destination, speed, travelTime }: SimulationControlsParams) => {
     console.log('Starting journey to', destination, 'at', speed, '% of light');
     console.log('It\'s going to take', travelTime, 'years to reach our destination');
-    // simulation logic here later
 
     // Setting Camera Control to Auto
     if (isManualControl) setIsManualControl(false);
 
+    // Simulation logic
     const startTime = performance.now();
     const endTime = startTime + SIM_DURATION_SECONDS * 1000;
-    const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000); // Convert to ms-based update
+    // Calulating for X here (1s = Xyrs), X(years/ms) = travelTime/simDurationInMs 
+    const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000);
   
     setIsJourneyActive(true);
+    setSimulatedYear(0); // Reset year at start
   
     const animate = (now: number) => {
       if (now >= endTime) {
         setSimulatedYear(travelTime);
         setIsJourneyActive(false);
+        animationFrameRef.current = null;
+        console.log("Hits")
         return;
       }
   
       const elapsed = now - startTime;
-      const currentYear = parseFloat((elapsed * yearsPerMs).toFixed(2)); // 2 decimal places
+      const currentYear = parseFloat((elapsed * yearsPerMs).toFixed(2));
       setSimulatedYear(currentYear);
   
-      requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
   
-    requestAnimationFrame(animate);
+    animationFrameRef.current = requestAnimationFrame(animate);
   };
 
   return (
