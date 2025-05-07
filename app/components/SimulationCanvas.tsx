@@ -24,6 +24,9 @@ export default function SimulationCanvas() {
   const [isManualControl, setIsManualControl] = useState(false);
   const [simulatedYear, setSimulatedYear] = useState(0);
   const [isJourneyActive, setIsJourneyActive] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  const baseYear = new Date().getFullYear();
 
   const toggleControlMode = () => {
     setIsManualControl(prev => !prev);
@@ -43,20 +46,22 @@ export default function SimulationCanvas() {
     const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000);
   
     setIsJourneyActive(true);
+    setElapsedTime(0); // Reset Elapsed/Animation time
     setSimulatedYear(0); // Reset year at start
   
     const animate = (now: number) => {
       if (now >= endTime) {
         setSimulatedYear(travelTime);
+        setElapsedTime(SIM_DURATION_SECONDS);
         setIsJourneyActive(false);
         animationFrameRef.current = null;
-        console.log("Hits")
         return;
       }
   
       const elapsed = now - startTime;
       const currentYear = parseFloat((elapsed * yearsPerMs).toFixed(2));
       setSimulatedYear(currentYear);
+      setElapsedTime(Math.floor(elapsed / 1000));
   
       animationFrameRef.current = requestAnimationFrame(animate);
     };
@@ -80,6 +85,8 @@ export default function SimulationCanvas() {
         onStartJourney={handleJourneyStart}
         simulatedYear={simulatedYear}
         isJourneyActive={isJourneyActive}
+        elaspedTime={elapsedTime}
+        yearInTheShip={baseYear + simulatedYear}
       />
       <Canvas>
         {/* Scene and Lighting Setup */}

@@ -11,6 +11,8 @@ type SimulationControlsProps = {
   onStartJourney: (params: SimulationControlsParams) => void;
   simulatedYear: number;
   isJourneyActive: boolean;
+  elaspedTime: number;
+  yearInTheShip: number; 
 }
 
 
