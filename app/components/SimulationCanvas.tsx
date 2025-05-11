@@ -1,5 +1,5 @@
 'use client';
-
+import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { useRef, useState } from 'react';
@@ -48,6 +48,7 @@ export default function SimulationCanvas() {
     // Calulating for X here (1s = Xyrs), X(years/ms) = travelTime/simDurationInMs 
     const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000);
 
+    // Need to change this to be more accurate or completely remove it
     const compressionFactor = Math.floor(yearsPerMs * 1000); // years per second
     setTimeCompression(compressionFactor);
     console.log(`travelTime: ${travelTime}, yearsPerMs: ${yearsPerMs}, compressionFactor: ${compressionFactor}`);
@@ -76,6 +77,14 @@ export default function SimulationCanvas() {
   
     animationFrameRef.current = requestAnimationFrame(animate);
   };
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   return (
 
