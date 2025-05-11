@@ -12,7 +12,8 @@ type SimulationControlsProps = {
   simulatedYear: number;
   isJourneyActive: boolean;
   elaspedTime: number;
-  yearInTheShip: number; 
+  yearInTheShip: number;
+  timeCompression: number; 
 }
 
 
@@ -21,7 +22,14 @@ const destinations = [
   // Will Add more later, maybe after I add some actual planets, expected destinations like Gaia BH1
 ];
 
-export default function SimulationControls({ onStartJourney, simulatedYear, isJourneyActive }: SimulationControlsProps) {
+export default function SimulationControls({ 
+  onStartJourney, 
+  simulatedYear,
+  isJourneyActive,
+  elaspedTime,
+  yearInTheShip,
+  timeCompression
+ }: SimulationControlsProps) {
   const [selectedDestination, setSelectedDestination] = useState(destinations[0]);
   const [speed, setSpeed] = useState(10); // % of speed of light
   const [travelTime, setTravelTime] = useState(0) // in Years
@@ -78,12 +86,23 @@ export default function SimulationControls({ onStartJourney, simulatedYear, isJo
           className="w-full"
         />
       </div>
-
       {/* Display Travel Time */}
-      <p>Travel Time (in years): {travelTime}</p>
+      <p>Journey Duration (years): {travelTime}</p><br/>
 
-      {/* Simulated Year */}
-      <p>Simulated Year (in seconds): {simulatedYear}</p>
+      {/* Simulated Year passed */}
+      <p>Years Passed (Simulated): {simulatedYear}</p>
+
+      {/* Current Year in Ship (Earth year as we travel) */}
+      <p>Ship's Calendar Year: {Math.floor(yearInTheShip)}</p>
+
+      {/* Elapsed real time */}
+      <p>Time Elapsed (real seconds): {elaspedTime}s</p>
+
+      {/* Time Compression */}
+      {isJourneyActive && timeCompression > 0 && (
+        <p>Time Compression: x{timeCompression.toLocaleString()}</p>
+      )}
+
 
       {/* Start Journey Button */}
       <button

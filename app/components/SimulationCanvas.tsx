@@ -25,8 +25,11 @@ export default function SimulationCanvas() {
   const [simulatedYear, setSimulatedYear] = useState(0);
   const [isJourneyActive, setIsJourneyActive] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [timeCompression, setTimeCompression] = useState(0);
 
   const baseYear = new Date().getFullYear();
+
+
 
   const toggleControlMode = () => {
     setIsManualControl(prev => !prev);
@@ -44,6 +47,11 @@ export default function SimulationCanvas() {
     const endTime = startTime + SIM_DURATION_SECONDS * 1000;
     // Calulating for X here (1s = Xyrs), X(years/ms) = travelTime/simDurationInMs 
     const yearsPerMs = travelTime / (SIM_DURATION_SECONDS * 1000);
+
+    const compressionFactor = Math.floor(yearsPerMs * 1000); // years per second
+    setTimeCompression(compressionFactor);
+    console.log(`travelTime: ${travelTime}, yearsPerMs: ${yearsPerMs}, compressionFactor: ${compressionFactor}`);
+
   
     setIsJourneyActive(true);
     setElapsedTime(0); // Reset Elapsed/Animation time
@@ -86,6 +94,7 @@ export default function SimulationCanvas() {
         simulatedYear={simulatedYear}
         isJourneyActive={isJourneyActive}
         elaspedTime={elapsedTime}
+        timeCompression={timeCompression}
         yearInTheShip={baseYear + simulatedYear}
       />
       <Canvas>
