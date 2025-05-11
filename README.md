@@ -1,4 +1,3 @@
-
 ## Project Plan
 
 👉 [View the full plan here](./project-plan.md)
@@ -22,4 +21,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 Recommended: You can add new components to the components directory to add new features/components. Refer Project Plan if you wish to contribute to any of the planned features.
-
