@@ -35,9 +35,11 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
   - ✅ Add a **Speed Slider** (% of speed of light) .
     - ✅ Range from 1% to 99.9%.
   - ✅ Automatically **calculate travel time** based on the speed and destination.
-  - Define and Add a **Simulated Time Scale**.
+  - ✅ Define and Add a **Simulated Time Scale**.
     - Eg.  **8.493 years real travel → 30 seconds of animation**
-    - UI shows **simulated year counter** updating in real time.
+    - ✅ UI shows **simulated year counter** updating in real time.
+    - ✅ UI shows **real year counter** updating in real time.
+    - ✅ UI shows **real time counter** updating in real time. (animation time)
   - ✅ Add **Star Journey** button that starts the simulation of the space travel(Only created a placeholder function with basic setup, for simulating we need 2 points start(earth) and destination(proxima)).
   - ✅ **Auto Camera mode activates** whenever the journey starts.
 
@@ -98,6 +100,11 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - View of a Launch Simulation with location specific POV, with information about each stages.
 - View of Sun(location specific POV)
 
+🌌 Future Plans for other planets :
+- Creating Solar system with SUN, planets and moons(later stage.)
+  - Planets being in the relative position to the SUN, according to close to real-time data.
+- Having planets and moons as destinations.
+
 ## Status
 
 ### ✅ Done:
@@ -106,8 +113,9 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - Camera Movement, Automatic(w.r.t ship), Manual(Free Roam).
 
 ### 🔲 Next:
-- Add destination picker, control sliders for speed, calculated travel time and simulation.
 - Add camera effects and smoother animations.
+- Space Warp Effects.
+- Creating low poly 3D model of our Solar System.
 
 ---
 
