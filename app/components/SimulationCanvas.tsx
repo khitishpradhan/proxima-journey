@@ -117,7 +117,7 @@ export default function SimulationCanvas() {
         <Stars radius={200} depth={100} count={800} factor={5} fade />
 
         {/* Moving Parts, Ship & Camera Controls  */}
-        <ShipController shipRef={shipRef}/>
+        <ShipController shipRef={shipRef} isJourneyActive={isJourneyActive}/>
         { !isManualControl && <CameraController shipRef={shipRef}/> }
         <ManualControls shipRef={shipRef} isManualControl={isManualControl} />
       </Canvas>

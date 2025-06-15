@@ -1,23 +1,23 @@
 import { useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 
-
 type Props = {
     shipRef: React.RefObject<THREE.Mesh>
-  }
+    isJourneyActive?: boolean
+}
   
-export default function ShipController({ shipRef }: Props) {
-useFrame((_, delta) => {
-    if (shipRef.current) {
-    shipRef.current.position.z -= 1 * delta;
+export default function ShipController({ shipRef, isJourneyActive = false }: Props) {
+  useFrame((_, delta) => {
+    if (shipRef.current && isJourneyActive) {
+      shipRef.current.position.z -= 1 * delta;
     }
-});
+  });
 
-return (
+  return (
     <mesh ref={shipRef}>
-    <sphereGeometry args={[0.1, 32, 32]} />
-    <meshBasicMaterial color="cyan" />
+      <sphereGeometry args={[0.1, 32, 32]} />
+      <meshBasicMaterial color="cyan" />
     </mesh>
-);
+  );
 }
   
