@@ -1,8 +1,8 @@
 import SimulationControls from './SimulationControls';
 
 interface Props {
-  isManualControl: boolean;
-  onToggleManualControl: () => void;
+  isFreeLook: boolean;
+  onToggleFreeLook: () => void;
   simulatedYear: number;
   isJourneyActive: boolean;
   elapsedTime: number;
@@ -12,8 +12,8 @@ interface Props {
 }
 
 export default function SimulationUI({
-  isManualControl,
-  onToggleManualControl,
+  isFreeLook,
+  onToggleFreeLook,
   simulatedYear,
   isJourneyActive,
   elapsedTime,
@@ -23,25 +23,27 @@ export default function SimulationUI({
 }: Props) {
   return (
     <>
-      {/* Manual vs Auto Camera Button */}
-      <div className="absolute top-5 right-40 z-50 pointer-events-auto">
+      {/* Camera mode buttons */}
+      <div className="absolute top-5 right-40 z-50 flex flex-col gap-2 pointer-events-auto">
         <button
-          className="p-4 bg-gray-900/85 hover:bg-gray-700 rounded cursor-pointer"
-          onClick={onToggleManualControl}
+          className="p-2 bg-gray-900/85 hover:bg-gray-700 rounded cursor-pointer"
+          onClick={onToggleFreeLook}
         >
-          {isManualControl ? 'Auto Camera' : 'Manual Camera'}
+          {isFreeLook ? 'Return to Ship' : 'Free Look'}
         </button>
       </div>
 
       {/* Simulation Controls Panel */}
-      <SimulationControls
-        onStartJourney={onStartJourney}
-        simulatedYear={simulatedYear}
-        isJourneyActive={isJourneyActive}
-        elapsedTime={elapsedTime}
-        timeCompression={timeCompression}
-        yearInTheShip={yearInTheShip}
-      />
+      <div className="pointer-events-auto">
+        <SimulationControls
+          onStartJourney={onStartJourney}
+          simulatedYear={simulatedYear}
+          isJourneyActive={isJourneyActive}
+          elapsedTime={elapsedTime}
+          timeCompression={timeCompression}
+          yearInTheShip={yearInTheShip}
+        />
+      </div>
     </>
   );
 } 

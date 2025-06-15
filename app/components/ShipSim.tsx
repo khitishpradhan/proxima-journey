@@ -1,11 +1,9 @@
 "use client";
-import { useRef, useState } from 'react';
-import { Html } from '@react-three/drei';
+import { useRef, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
-import ManualControls from './ManualControls';
-import SimulationUI from './SimulationUI';
+import { useShipSimStore } from './ShipSim/ShipSimStore';
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
@@ -15,17 +13,18 @@ const SIM_DURATION_SECONDS = 30; // real-time duration for any journey
 
 export default function ShipSim({ earthRef }: Props) {
   const shipRef = useRef<THREE.Mesh>(null!);
-  const [isManualControl, setIsManualControl] = useState(false);
   const [simulatedYear, setSimulatedYear] = useState(0);
   const [isJourneyActive, setIsJourneyActive] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [timeCompression, setTimeCompression] = useState(0);
+  const hudStore = useShipSimStore();
+  const { toggleFreeLook, isFreeLook } = hudStore;
 
   const baseYear = new Date().getFullYear();
 
   const handleJourneyStart = ({ destination, speed, travelTime }: any) => {
-    // Reset camera to auto for the cinematic shot
-    if (isManualControl) setIsManualControl(false);
+    // Ensure free look off when journey starts
+    if (isFreeLook) toggleFreeLook();
 
     const startTime = performance.now();
     const endTime = startTime + SIM_DURATION_SECONDS * 1000;
@@ -54,26 +53,25 @@ export default function ShipSim({ earthRef }: Props) {
     requestAnimationFrame(animate);
   };
 
+  // Sync local state to global HUD store on each change
+  useEffect(() => {
+    hudStore.setHUD({
+      simulatedYear,
+      isJourneyActive,
+      elapsedTime,
+      timeCompression,
+      yearInTheShip: baseYear + simulatedYear,
+      onStartJourney: handleJourneyStart,
+      isFreeLook,
+    });
+  }, [simulatedYear, isJourneyActive, elapsedTime, timeCompression, isFreeLook]);
+
   return (
     <>
-      {/* Screen-space HUD fixed to viewport */}
-      <Html fullscreen>
-        <SimulationUI
-          isManualControl={isManualControl}
-          onToggleManualControl={() => setIsManualControl((v) => !v)}
-          simulatedYear={simulatedYear}
-          isJourneyActive={isJourneyActive}
-          elapsedTime={elapsedTime}
-          timeCompression={timeCompression}
-          yearInTheShip={baseYear + simulatedYear}
-          onStartJourney={handleJourneyStart}
-        />
-      </Html>
-
       {/* Ship & camera logic */}
       <ShipController shipRef={shipRef} isJourneyActive={isJourneyActive} earthRef={earthRef} />
-      {!isManualControl && <CameraController shipRef={shipRef} />}      
-      <ManualControls shipRef={shipRef} isManualControl={isManualControl} />
+      {/* follow camera active when not freeLook */}
+      {!isFreeLook && <CameraController shipRef={shipRef} />}
     </>
   );
 } 

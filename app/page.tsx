@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Head from 'next/head';
+import HUDOverlay from '@/components/HUDOverlay';
 
 const CanvasScene = dynamic(() => import('@/components/CanvasScene'), { ssr: false });
 
@@ -25,6 +26,7 @@ export default function Home() {
 
       <main style={{ width: '100vw', height: '100vh' }}>
         <CanvasScene simulationMode={simulationMode} />
+        {simulationMode && <HUDOverlay />}
       </main>
     </>
   );

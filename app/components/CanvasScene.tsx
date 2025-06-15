@@ -7,6 +7,8 @@ import LightSetup from './LightSetup';
 import StarBackground from './StarBackground';
 import SolarSystem from './SolarSystem';
 import ShipSim from './ShipSim';
+import SolarOrbitControls from './SolarOrbitControls';
+import { useShipSimStore } from './ShipSim/ShipSimStore';
 
 interface Props {
   simulationMode: boolean;
@@ -14,6 +16,7 @@ interface Props {
 
 export default function CanvasScene({ simulationMode }: Props) {
   const earthRef = useRef<THREE.Mesh>(null!);
+  const isFreeLook = useShipSimStore((s) => s.isFreeLook);
 
   return (
     <Canvas>
@@ -27,6 +30,9 @@ export default function CanvasScene({ simulationMode }: Props) {
 
       {/* Ship simulation overlay */}
       {simulationMode && <ShipSim earthRef={earthRef} />}
+
+      {/* Scene orbit controls only when simulation inactive */}
+      <SolarOrbitControls enabled={!simulationMode || isFreeLook} />
     </Canvas>
   );
 } 
