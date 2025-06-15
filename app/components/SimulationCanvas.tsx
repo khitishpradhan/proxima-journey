@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Stars } from '@react-three/drei';
+import { Stats } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import SceneSetup from './SceneSetup';
@@ -11,6 +11,7 @@ import CameraController from './CameraController';
 import ManualControls from './ManualControls';
 import SimulationControls from './SimulationControls';
 import { SimulationControlsParams } from './SimulationControls';
+import InfiniteStars from './InfiniteStars';
 
 //CONSTANTS
 // This is the actual time the simulation will take reagardless of the travel time
@@ -107,14 +108,13 @@ export default function SimulationCanvas() {
         yearInTheShip={baseYear + simulatedYear}
       />
       <Canvas>
+        <Stats />
         {/* Scene and Lighting Setup */}
         <SceneSetup />
         <LightsSetup />
 
-        {/* Rendering Stars here */}
-        <Stars radius={50} depth={20} count={1200} factor={1} fade />
-        <Stars radius={100} depth={50} count={4000} factor={3} fade />
-        <Stars radius={200} depth={100} count={800} factor={5} fade />
+        {/* Infinite Stars Background */}
+        <InfiniteStars />
 
         {/* Moving Parts, Ship & Camera Controls  */}
         <ShipController shipRef={shipRef}/>
