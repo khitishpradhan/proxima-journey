@@ -11,7 +11,7 @@ type SimulationControlsProps = {
   onStartJourney: (params: SimulationControlsParams) => void;
   simulatedYear: number;
   isJourneyActive: boolean;
-  elaspedTime: number;
+  elapsedTime: number;
   yearInTheShip: number;
   timeCompression: number; 
 }
@@ -26,7 +26,7 @@ export default function SimulationControls({
   onStartJourney, 
   simulatedYear,
   isJourneyActive,
-  elaspedTime,
+  elapsedTime,
   yearInTheShip,
   timeCompression
  }: SimulationControlsProps) {
@@ -96,7 +96,7 @@ export default function SimulationControls({
       <p>Ship's Calendar Year: {Math.floor(yearInTheShip)}</p>
 
       {/* Elapsed real time */}
-      <p>Time Elapsed (real seconds): {elaspedTime}s</p>
+      <p>Time Elapsed (real seconds): {elapsedTime}s</p>
 
       {/* Time Compression */}
       {isJourneyActive && timeCompression > 0 && (
