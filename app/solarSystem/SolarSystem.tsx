@@ -5,6 +5,7 @@ import Planet from './components/Planet';
 import OrbitPath from './components/OrbitPath';
 import React from 'react';
 import { useCamTarget } from './cameraStore';
+import { Html, Billboard } from '@react-three/drei';
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
@@ -30,9 +31,15 @@ export default function SolarSystem({ earthRef }: Props) {
   return (
     <group>
       {/* Sun */}
-      <mesh ref={sunRef} position={[0, 0, 0]} onPointerDown={()=>setTarget(new THREE.Vector3(0,0,0))}>
+      <mesh ref={sunRef} position={[0, 0, 0]}>
         <sphereGeometry args={[solarSystem.sun.radius * PLANET_VISUAL_SCALE, 32, 32]} />
         <meshBasicMaterial color={solarSystem.sun.color ?? 'orange'} />
+
+        <Billboard follow>
+          <Html center distanceFactor={150} style={{ pointerEvents: 'auto', cursor:'pointer' }}>
+            <span onClick={()=>setTarget(new THREE.Vector3(0,0,0))} style={{ fontSize: 16, color: 'white', textShadow: '0 0 2px #000', cursor:'pointer' }}>Sun</span>
+          </Html>
+        </Billboard>
       </mesh>
 
       {/* Orbits & Planets */}
