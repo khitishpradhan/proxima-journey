@@ -1,22 +1,25 @@
-import React from 'react';
-import * as THREE from 'three';
+import React, { useMemo } from 'react';
+import { BufferGeometry, Float32BufferAttribute, Line, LineBasicMaterial } from 'three';
 
 interface OrbitProps {
-  radius: number; // distance of planet from sun (scene units)
+  radius: number;
   color?: string;
+  segments?: number;
 }
 
-// Simple flat ring to visualise orbital path
-export default function OrbitPath({ radius, color = '#555' }: OrbitProps) {
-  // small thickness proportional to radius
-  const thickness = Math.max(1, radius * 0.01);         // 1 % thickness, min 1u
-  const inner = radius - thickness/2;
-  const outer = radius + thickness/2;
+export default function OrbitPath({ radius, color = '#888', segments = 256 }: OrbitProps) {
+  const line = useMemo(() => {
+    const positions: number[] = [];
+    for (let i = 0; i <= segments; i++) {
+      const theta = (i / segments) * Math.PI * 2;
+      positions.push(Math.cos(theta) * radius, 0, Math.sin(theta) * radius);
+    }
+    const geom = new BufferGeometry();
+    geom.setAttribute('position', new Float32BufferAttribute(positions, 3));
+    const material = new LineBasicMaterial({ color });
+    return new Line(geom, material);
+  }, [radius, color, segments]);
 
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]}> {/* rotate to lie on XZ plane */}
-      <ringGeometry args={[inner, outer, 128]} />
-      <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.8} />
-    </mesh>
-  );
+  // rotate to XZ already default for y=0
+  return <primitive object={line} />;
 } 
