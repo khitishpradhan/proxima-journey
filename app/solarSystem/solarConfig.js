@@ -1,8 +1,15 @@
-// 1 AU = 10 scene units (distance between planets)
-const AU = 10;
+// === Scene scaling ===
+// 1 scene-unit  = 1,000,000 km  (1e6 km)
+// 1 AU (≈149.6 M km) ≈ 149.6 scene-units
 
-// Planet radius scaled down: 1 unit = 3000 km
-const SIZE_SCALE = 1 / 3000;
+export const UNIT_KM = 1000000;
+export const AU = 1496 / UNIT_KM; // 149.6 units
+
+// Planet radius scale: km → scene units
+const SIZE_SCALE = 1 / UNIT_KM;
+
+// small random orbital tilt helper (±20 units on Y and Z)
+const randOffset = () => (Math.random() - 0.5) * 40;
 
 export const solarSystem = {
   sun: {
@@ -15,21 +22,23 @@ export const solarSystem = {
     {
       name: "Mercury",
       radius: 2439.7 * SIZE_SCALE,         // ~0.813 units
-      distance: 0.39 * AU,                 // ~3.9 units
+      distance: 0.39 * AU,                 // ~58 units
       orbitPeriod: 88,                     // days
       color: '#b1b1b1',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Venus",
       radius: 6051.8 * SIZE_SCALE,         // ~2.017 units
-      distance: 0.72 * AU,                 // ~7.2 units
+      distance: 0.72 * AU,                 // ~108 units
       orbitPeriod: 225,
       color: '#e7c39b',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Earth",
       radius: 6371 * SIZE_SCALE,           // ~2.124 units
-      distance: 1.0 * AU,                  // 10 units
+      distance: 1.0 * AU,                  // 150 units
       orbitPeriod: 365,
       color: 'skyblue',
       moons: [
@@ -39,42 +48,48 @@ export const solarSystem = {
           distance: 0.00257 * AU,          // ~0.0257 units from Earth
           orbitPeriod: 27.3,
         }
-      ]
+      ],
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Mars",
       radius: 3389.5 * SIZE_SCALE,         // ~1.13 units
-      distance: 1.52 * AU,                 // ~15.2 units
+      distance: 1.52 * AU,                 // ~227 units
       orbitPeriod: 687,
       color: '#c1440e',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Jupiter",
       radius: 69911 * SIZE_SCALE,          // ~23.3 units
-      distance: 5.2 * AU,                  // ~52 units
+      distance: 5.2 * AU,                  // ~778 units
       orbitPeriod: 4331,
       color: '#d2b48c',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Saturn",
       radius: 58232 * SIZE_SCALE,          // ~19.4 units
-      distance: 9.58 * AU,                 // ~95.8 units
+      distance: 9.58 * AU,                 // ~1 431 units
       orbitPeriod: 10747,
       color: '#eed8a6',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Uranus",
       radius: 25362 * SIZE_SCALE,          // ~8.45 units
-      distance: 19.2 * AU,                 // ~192 units
+      distance: 19.2 * AU,                 // ~2 873 units
       orbitPeriod: 30589,
       color: '#7ad0e6',
+      offset: [randOffset(), randOffset()],
     },
     {
       name: "Neptune",
       radius: 24622 * SIZE_SCALE,          // ~8.2 units
-      distance: 30.05 * AU,                // ~300.5 units
+      distance: 30.05 * AU,                // ~4 494 units
       orbitPeriod: 59800,
       color: '#4063ff',
+      offset: [randOffset(), randOffset()],
     },
   ]
 };

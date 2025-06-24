@@ -7,6 +7,7 @@ export interface PlanetData {
   radius: number;
   distance: number;
   color?: string;
+  offset?: [number, number];
 }
 
 interface PlanetProps {
@@ -15,10 +16,10 @@ interface PlanetProps {
 }
 
 export default function Planet({ data, meshRef }: PlanetProps) {
-  const { radius, distance, color = 'white' } = data;
+  const { radius, distance, color = 'white', offset = [0, 0] } = data;
 
   return (
-    <mesh ref={meshRef} position={[distance, 0, 0]}>
+    <mesh ref={meshRef} position={[distance, offset[0], offset[1]]}>
       <sphereGeometry args={[radius, 32, 32]} />
       <meshStandardMaterial color={color} />
     </mesh>

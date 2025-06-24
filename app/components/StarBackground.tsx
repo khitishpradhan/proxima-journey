@@ -4,9 +4,9 @@ export default function StarBackground() {
   return (
     <>
       {/* Three concentric star layers for parallax depth */}
-      <Stars radius={50} depth={20} count={1200} factor={1} fade />
-      <Stars radius={100} depth={50} count={4000} factor={3} fade />
-      <Stars radius={200} depth={100} count={800} factor={5} fade />
+      <Stars radius={8000} depth={2000} count={5000} factor={1} fade />
+      <Stars radius={12000} depth={3000} count={8000} factor={2} fade />
+      <Stars radius={16000} depth={4000} count={10000} factor={3} fade />
     </>
   );
 } 
