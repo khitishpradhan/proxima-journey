@@ -19,7 +19,7 @@ export default function CanvasScene({ simulationMode }: Props) {
   const isFreeLook = useShipSimStore((s) => s.isFreeLook);
 
   return (
-    <Canvas>
+    <Canvas camera={{ position: [0, 200, 600], near: 0.1, far: 60000 }}>
       {/* static scene helpers */}
       <SceneSetup />
       <LightSetup />

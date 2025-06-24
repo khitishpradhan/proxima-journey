@@ -3,13 +3,16 @@
 // 1 AU (≈149.6 M km) ≈ 149.6 scene-units
 
 export const UNIT_KM = 1000000;
-export const AU = 1496 / UNIT_KM; // 149.6 units
+export const AU = 149_600_000 / UNIT_KM; // 149.6 scene-units
 
 // Planet radius scale: km → scene units
 const SIZE_SCALE = 1 / UNIT_KM;
 
-// small random orbital tilt helper (±20 units on Y and Z)
-const randOffset = () => (Math.random() - 0.5) * 40;
+// currently we keep all planets on the ecliptic plane (no random offset)
+const randOffset = () => 0; // returns 0 so offset is neutral
+
+// exaggerate planet sizes for visibility (multiplier)
+export const PLANET_VISUAL_SCALE = 50;
 
 export const solarSystem = {
   sun: {
@@ -25,7 +28,6 @@ export const solarSystem = {
       distance: 0.39 * AU,                 // ~58 units
       orbitPeriod: 88,                     // days
       color: '#b1b1b1',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Venus",
@@ -33,7 +35,6 @@ export const solarSystem = {
       distance: 0.72 * AU,                 // ~108 units
       orbitPeriod: 225,
       color: '#e7c39b',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Earth",
@@ -49,7 +50,6 @@ export const solarSystem = {
           orbitPeriod: 27.3,
         }
       ],
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Mars",
@@ -57,7 +57,6 @@ export const solarSystem = {
       distance: 1.52 * AU,                 // ~227 units
       orbitPeriod: 687,
       color: '#c1440e',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Jupiter",
@@ -65,7 +64,6 @@ export const solarSystem = {
       distance: 5.2 * AU,                  // ~778 units
       orbitPeriod: 4331,
       color: '#d2b48c',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Saturn",
@@ -73,7 +71,6 @@ export const solarSystem = {
       distance: 9.58 * AU,                 // ~1 431 units
       orbitPeriod: 10747,
       color: '#eed8a6',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Uranus",
@@ -81,7 +78,6 @@ export const solarSystem = {
       distance: 19.2 * AU,                 // ~2 873 units
       orbitPeriod: 30589,
       color: '#7ad0e6',
-      offset: [randOffset(), randOffset()],
     },
     {
       name: "Neptune",
@@ -89,7 +85,6 @@ export const solarSystem = {
       distance: 30.05 * AU,                // ~4 494 units
       orbitPeriod: 59800,
       color: '#4063ff',
-      offset: [randOffset(), randOffset()],
     },
   ]
 };
