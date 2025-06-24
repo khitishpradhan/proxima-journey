@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-
+import Sun from './celestials/Sun';
+import Earth from './planets/Earth';
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
 }
@@ -24,16 +25,10 @@ export default function SolarSystem({ earthRef }: Props) {
   return (
     <>
       {/* Sun */}
-      <mesh ref={sunRef} position={[0, 0, 0]}>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial color={'orange'} />
-      </mesh>
+      <Sun sunRef={sunRef} />
 
       {/* Earth */}
-      <mesh ref={earthRef} position={[5, 0, 0]}>
-        <sphereGeometry args={[0.3, 32, 32]} />
-        <meshStandardMaterial color={'skyblue'} />
-      </mesh>
+      <Earth earthRef={earthRef} />
     </>
   );
 } 
