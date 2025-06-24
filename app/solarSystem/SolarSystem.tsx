@@ -1,14 +1,7 @@
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import Sun from './celestials/Sun';
-import Earth from './planets/Earth';
-import Mercury from './planets/Mercury';
-import Venus from './planets/Venus';
-import Mars from './planets/Mars';
-import Jupiter from './planets/Jupiter';
-import Saturn from './planets/Saturn';
-import Uranus from './planets/Uranus';
-import Neptune from './planets/Neptune';
+import { solarSystem } from './solarConfig';
+import Planet from './components/Planet';
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
@@ -16,54 +9,36 @@ interface Props {
 
 export default function SolarSystem({ earthRef }: Props) {
   const sunRef = useRef<THREE.Mesh>(null!);
-  const mercuryRef = useRef<THREE.Mesh>(null!);
-  const venusRef = useRef<THREE.Mesh>(null!);
-  const marsRef = useRef<THREE.Mesh>(null!);
-  const jupiterRef = useRef<THREE.Mesh>(null!);
-  const saturnRef = useRef<THREE.Mesh>(null!);
-  const uranusRef = useRef<THREE.Mesh>(null!);
-  const neptuneRef = useRef<THREE.Mesh>(null!);
-  // Spin sun slowly
+
+  // Rotate sun slowly
   useEffect(() => {
     if (!sunRef.current) return;
     const sun = sunRef.current;
     let frame: number;
-    const animate = () => {
+    const rot = () => {
       sun.rotation.y += 0.001;
-      frame = requestAnimationFrame(animate);
+      frame = requestAnimationFrame(rot);
     };
-    frame = requestAnimationFrame(animate);
+    frame = requestAnimationFrame(rot);
     return () => cancelAnimationFrame(frame);
   }, []);
 
   return (
-    <>
+    <group>
       {/* Sun */}
-      <Sun sunRef={sunRef} />
+      <mesh ref={sunRef} position={[0, 0, 0]}>
+        <sphereGeometry args={[solarSystem.sun.radius, 32, 32]} />
+        <meshBasicMaterial color={solarSystem.sun.color ?? 'orange'} />
+      </mesh>
 
-      {/* Mercury */}
-      <Mercury mercuryRef={mercuryRef} />
-
-      {/* Venus */}
-      <Venus venusRef={venusRef} />
-
-      {/* Earth */}
-      <Earth earthRef={earthRef} />
-
-      {/* Mars */}
-      <Mars marsRef={marsRef} />
-
-      {/* Jupiter */}
-      <Jupiter jupiterRef={jupiterRef} />
-
-      {/* Saturn */}
-      <Saturn saturnRef={saturnRef} />
-
-      {/* Uranus */}
-      <Uranus uranusRef={uranusRef} />
-
-      {/* Neptune */}
-      <Neptune neptuneRef={neptuneRef} />
-    </>
+      {/* Planets generated from config */}
+      {solarSystem.planets.map((planet) => (
+        <Planet
+          key={planet.name}
+          data={planet as any}
+          meshRef={planet.name === 'Earth' ? earthRef : undefined}
+        />
+      ))}
+    </group>
   );
 } 

@@ -10,7 +10,7 @@ export default function SolarOrbitControls({ enabled }: Props) {
     <OrbitControls
       enabled={enabled}
       enableZoom={true}
-      maxDistance={100}
+      maxDistance={800}
       minDistance={2}
     />
   );
