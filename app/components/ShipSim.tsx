@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
-import { useShipSimStore } from '../store/ShipSim/ShipSimStore';
+import { useShipSimStore } from './ShipSim/ShipSimStore';
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;

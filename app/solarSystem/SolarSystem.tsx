@@ -4,6 +4,7 @@ import { solarSystem, PLANET_VISUAL_SCALE } from './solarConfig';
 import Planet from './components/Planet';
 import OrbitPath from './components/OrbitPath';
 import React from 'react';
+import { useCamTarget } from './cameraStore';
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function SolarSystem({ earthRef }: Props) {
   const sunRef = useRef<THREE.Mesh>(null!);
+  const setTarget = useCamTarget((s)=>s.setTarget);
 
   // Rotate sun slowly
   // useEffect(() => {
@@ -28,7 +30,7 @@ export default function SolarSystem({ earthRef }: Props) {
   return (
     <group>
       {/* Sun */}
-      <mesh ref={sunRef} position={[0, 0, 0]}>
+      <mesh ref={sunRef} position={[0, 0, 0]} onPointerDown={()=>setTarget(new THREE.Vector3(0,0,0))}>
         <sphereGeometry args={[solarSystem.sun.radius * PLANET_VISUAL_SCALE, 32, 32]} />
         <meshBasicMaterial color={solarSystem.sun.color ?? 'orange'} />
       </mesh>

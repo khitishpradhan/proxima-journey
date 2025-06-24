@@ -8,7 +8,7 @@ import StarBackground from './StarBackground';
 import SolarSystem from '../solarSystem/SolarSystem';
 import ShipSim from './ShipSim';
 import SolarOrbitControls from '../solarSystem/SolarOrbitControls';
-import { useShipSimStore } from '../store/ShipSim/ShipSimStore';
+import { useShipSimStore } from './ShipSim/ShipSimStore';
 
 interface Props {
   simulationMode: boolean;
