@@ -1,6 +1,6 @@
 "use client";
 import SimulationUI from './SimulationUI';
-import { useShipSimStore } from './ShipSim/ShipSimStore';
+import { useShipSimStore } from '../store/ShipSim/ShipSimStore';
 
 export default function HUDOverlay() {
   const {

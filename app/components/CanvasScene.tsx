@@ -5,10 +5,10 @@ import * as THREE from 'three';
 import SceneSetup from './SceneSetup';
 import LightSetup from './LightSetup';
 import StarBackground from './StarBackground';
-import SolarSystem from './SolarSystem';
+import SolarSystem from '../solarSystem/SolarSystem';
 import ShipSim from './ShipSim';
-import SolarOrbitControls from './SolarOrbitControls';
-import { useShipSimStore } from './ShipSim/ShipSimStore';
+import SolarOrbitControls from '../solarSystem/SolarOrbitControls';
+import { useShipSimStore } from '../store/ShipSim/ShipSimStore';
 
 interface Props {
   simulationMode: boolean;
