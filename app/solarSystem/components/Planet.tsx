@@ -31,12 +31,23 @@ export default function Planet({ data, meshRef }: PlanetProps) {
     setTarget(new THREE.Vector3(distance, 0, 0));
   };
 
-  // show/hide marker based on distance
+  // show/hide marker based on distance from the Sun
   useFrame(() => {
-    const planetPos = new THREE.Vector3(distance, 0, 0);
-    const dist = camera.position.distanceTo(planetPos);
-    // visible between 8× and 400× planet radius
-    setShowMarker(dist > visRadius * 8 && dist < visRadius * 400);
+    // Distance from camera to the Sun (origin)
+    const distFromSun = camera.position.length();
+
+    // ------- visibility rules --------
+    // 1.  Too close?  hide when within lowerFactor × planetOrbit
+    // 2.  Too far?    hide when beyond upperFactor × planetOrbit
+    // These factors create a band so inner planets vanish first as we zoom out.
+    const lowerFactor = 0.2;
+    const upperFactor = 4;
+
+    const show =
+      distFromSun > distance * lowerFactor &&
+      distFromSun < distance * upperFactor;
+
+    setShowMarker(show);
   });
 
   return (
