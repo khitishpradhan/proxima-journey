@@ -1,9 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
-import { JourneyParams } from '@/components/ShipSim/ShipSimStore';
 import { PLANET_VISUAL_SCALE } from '@/solarSystem/solarConfig';
 import { useCamTarget } from '@/solarSystem/cameraStore';
-import { Html, Billboard } from '@react-three/drei';
+import { Html } from '@react-three/drei';
 import { useThree, useFrame } from '@react-three/fiber';
 
 export interface PlanetData {
@@ -24,7 +23,7 @@ export default function Planet({ data, meshRef }: PlanetProps) {
   const visRadius = Math.max(radius * PLANET_VISUAL_SCALE, 0.3);
   const setTarget = useCamTarget((s) => s.setTarget);
   const { camera } = useThree();
-  const [showLabel, setShowLabel] = React.useState(true);
+  const [showMarker, setShowMarker] = React.useState(true);
 
   const handleClick = (e: any) => {
     e.stopPropagation();
@@ -32,11 +31,12 @@ export default function Planet({ data, meshRef }: PlanetProps) {
     setTarget(new THREE.Vector3(distance, 0, 0));
   };
 
-  // hide label when camera very close to planet
+  // show/hide marker based on distance
   useFrame(() => {
-    const planetPos = new THREE.Vector3(distance,0,0);
+    const planetPos = new THREE.Vector3(distance, 0, 0);
     const dist = camera.position.distanceTo(planetPos);
-    setShowLabel(dist > visRadius * 8);
+    // visible between 8× and 400× planet radius
+    setShowMarker(dist > visRadius * 8 && dist < visRadius * 400);
   });
 
   return (
@@ -44,29 +44,44 @@ export default function Planet({ data, meshRef }: PlanetProps) {
       <sphereGeometry args={[visRadius, 32, 32]} />
       <meshStandardMaterial color={color} />
 
-      {/* Billboard selector */}
-      <Billboard follow>
-        <mesh
-          scale={[visRadius * 4, visRadius * 4, 1]}
-          onPointerDown={handleClick}
+      {/* Marker & label rendered as fixed-size HTML */}
+      {showMarker && (
+        <Html
+          center
+          position={[0, 0, 0]}
+          occlude={false}
+          transform={false}
+          style={{ pointerEvents: 'auto', cursor: 'pointer' }}
         >
-          <ringGeometry args={[0.45, 0.5, 64]} />
-          <meshBasicMaterial color={color} transparent opacity={0.7} />
-        </mesh>
-        {showLabel && (
-          <Html
-            position={[visRadius * 2.5, 0, 0]}
-            transform
-            occlude={false}
-            distanceFactor={150}
-            style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+          <div
+            onClick={handleClick}
+            style={{ position: 'relative', width: 18, height: 18 }}
           >
-            <span onClick={handleClick} style={{ fontSize: 18, color: 'white', textShadow: '0 0 2px #000' }}>
+            <div
+              style={{
+                width: 18,
+                height: 18,
+                border: `2px solid ${color}`,
+                borderRadius: '50%',
+              }}
+            />
+            <span
+              style={{
+                position: 'absolute',
+                left: 24,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: 16,
+                color: '#ffffff',
+                textShadow: '0 0 2px #000',
+                userSelect: 'none',
+              }}
+            >
               {data.name}
             </span>
-          </Html>
-        )}
-      </Billboard>
+          </div>
+        </Html>
+      )}
     </mesh>
   );
 } 
