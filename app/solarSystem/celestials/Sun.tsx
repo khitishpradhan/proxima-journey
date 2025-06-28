@@ -52,14 +52,6 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
             onClick={() => setTarget(new THREE.Vector3(0, 0, 0))}
             style={{ position: 'relative', width: 20, height: 20 }}
           >
-            <div
-              style={{
-                width: 20,
-                height: 20,
-                border: '2px solid orange',
-                borderRadius: '50%',
-              }}
-            />
             <span
               style={{
                 position: 'absolute',
