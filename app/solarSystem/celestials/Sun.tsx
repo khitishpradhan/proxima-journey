@@ -19,7 +19,7 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
     const sunPos = new THREE.Vector3(0, 0, 0);
     const dist = camera.position.distanceTo(sunPos);
     // Hide marker when extremely close (< 10×) or too far (> 1000×) sun radius
-    setShowMarker(dist > visRadius * 10 && dist < visRadius * 1000);
+    setShowMarker(dist > visRadius * 10 && dist < visRadius * 10000);
   });
 
   // Rotate sun slowly

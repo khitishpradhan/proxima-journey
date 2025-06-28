@@ -16,28 +16,28 @@ export const PLANET_VISUAL_SCALE = 50;
 
 export const solarSystem = {
   sun: {
-    name: "Sun",
-    radius: 696340 * SIZE_SCALE, // ~232.11 units
+    name: "SUN",
+    radius: 69634 * SIZE_SCALE, // ~232.11 units
     distance: 0,
     color: 'orange',
   },
   planets: [
     {
-      name: "Mercury",
+      name: "MERCURY",
       radius: 2439.7 * SIZE_SCALE,         // ~0.813 units
       distance: 0.39 * AU,                 // ~58 units
       orbitPeriod: 88,                     // days
       color: '#b1b1b1',
     },
     {
-      name: "Venus",
+      name: "VENUS",
       radius: 6051.8 * SIZE_SCALE,         // ~2.017 units
       distance: 0.72 * AU,                 // ~108 units
       orbitPeriod: 225,
       color: '#e7c39b',
     },
     {
-      name: "Earth",
+      name: "EARTH",
       radius: 6371 * SIZE_SCALE,           // ~2.124 units
       distance: 1.0 * AU,                  // 150 units
       orbitPeriod: 365,
@@ -52,35 +52,35 @@ export const solarSystem = {
       ],
     },
     {
-      name: "Mars",
+      name: "MARS",
       radius: 3389.5 * SIZE_SCALE,         // ~1.13 units
       distance: 1.52 * AU,                 // ~227 units
       orbitPeriod: 687,
       color: '#c1440e',
     },
     {
-      name: "Jupiter",
+      name: "JUPITER",
       radius: 69911 * SIZE_SCALE,          // ~23.3 units
       distance: 5.2 * AU,                  // ~778 units
       orbitPeriod: 4331,
       color: '#d2b48c',
     },
     {
-      name: "Saturn",
+      name: "SATURN",
       radius: 58232 * SIZE_SCALE,          // ~19.4 units
       distance: 9.58 * AU,                 // ~1 431 units
       orbitPeriod: 10747,
       color: '#eed8a6',
     },
     {
-      name: "Uranus",
+      name: "URANUS",
       radius: 25362 * SIZE_SCALE,          // ~8.45 units
       distance: 19.2 * AU,                 // ~2 873 units
       orbitPeriod: 30589,
       color: '#7ad0e6',
     },
     {
-      name: "Neptune",
+      name: "NEPTUNE",
       radius: 24622 * SIZE_SCALE,          // ~8.2 units
       distance: 30.05 * AU,                // ~4 494 units
       orbitPeriod: 59800,
