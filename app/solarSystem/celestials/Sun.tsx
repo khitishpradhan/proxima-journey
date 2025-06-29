@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import * as THREE from 'three';
-import { Html } from '@react-three/drei';
+import { Html, useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PLANET_VISUAL_SCALE, solarSystem } from '../solarConfig';
 
@@ -14,6 +14,8 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
   const [showMarker, setShowMarker] = React.useState(true);
 
   const visRadius = solarSystem.sun.radius * PLANET_VISUAL_SCALE;
+  
+  const sunTexture = useTexture('/textures/sun/sun.jpg');
 
   useFrame(() => {
     const sunPos = new THREE.Vector3(0, 0, 0);
@@ -37,8 +39,8 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
 
   return (
     <mesh ref={sunRef} position={[0, 0, 0]}>
-      <sphereGeometry args={[visRadius, 32, 32]} />
-      <meshBasicMaterial color={solarSystem.sun.color ?? 'orange'} />
+      <sphereGeometry args={[visRadius, 64, 64]} />
+      <meshBasicMaterial map={sunTexture} color={solarSystem.sun.color ?? 'orange'} />
 
       {showMarker && (
         <Html

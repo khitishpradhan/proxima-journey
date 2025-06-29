@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { solarSystem, PLANET_VISUAL_SCALE } from './solarConfig';
 import Planet from './components/Planet';
 import OrbitPath from './components/OrbitPath';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useCamTarget } from './cameraStore';
 import Sun from './celestials/Sun';
 
@@ -16,20 +16,22 @@ export default function SolarSystem({ earthRef }: Props) {
   const setTarget = useCamTarget((s)=>s.setTarget);
 
   return (
-    <group>
-      {/* Sun */}
-      <Sun sunRef={sunRef} setTarget={setTarget} />
+    <Suspense fallback={null}>
+      <group>
+        {/* Sun */}
+        <Sun sunRef={sunRef} setTarget={setTarget} />
 
-      {/* Orbits & Planets */}
-      {solarSystem.planets.map((planet) => (
-        <React.Fragment key={planet.name}>
-          <OrbitPath radius={planet.distance} color={planet.color} />
-          <Planet
-            data={planet as any}
-            meshRef={planet.name === 'Earth' ? earthRef : undefined}
-          />
-        </React.Fragment>
-      ))}
-    </group>
+        {/* Orbits & Planets */}
+        {solarSystem.planets.map((planet) => (
+          <React.Fragment key={planet.name}>
+            <OrbitPath radius={planet.distance} color={planet.color} />
+            <Planet
+              data={planet as any}
+              meshRef={planet.name === 'EARTH' ? earthRef : undefined}
+            />
+          </React.Fragment>
+        ))}
+      </group>
+    </Suspense>
   );
 } 
