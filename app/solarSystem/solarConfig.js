@@ -20,6 +20,7 @@ export const solarSystem = {
     radius: 69634 * SIZE_SCALE, // ~232.11 units
     distance: 0,
     color: 'orange',
+    texture: '/textures/sun/sun.jpg',
   },
   planets: [
     {
@@ -50,6 +51,12 @@ export const solarSystem = {
           orbitPeriod: 27.3,
         }
       ],
+      maps: {
+        color: '/textures/earth/earth_color.jpg',
+        bump: '/textures/earth/earth_bump.jpg',
+        emissive: '/textures/earth/earth_citylights.jpg',
+        cloud: '/textures/earth/earth_clouds.jpg',
+      },
     },
     {
       name: "MARS",

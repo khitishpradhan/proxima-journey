@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import { PLANET_VISUAL_SCALE } from '@/solarSystem/solarConfig';
 import { useCamTarget } from '@/solarSystem/cameraStore';
 import { Html } from '@react-three/drei';
-import { useThree, useFrame } from '@react-three/fiber';
+import { useThree, useFrame, useLoader } from '@react-three/fiber';
+import { TextureLoader, LinearFilter } from 'three';
 
 export interface PlanetData {
   name: string;
@@ -11,6 +12,13 @@ export interface PlanetData {
   distance: number;
   color?: string;
   offset?: [number, number];
+  maps?: {
+    color?: string;      // base colour/albedo
+    bump?: string;
+    normal?: string;
+    emissive?: string;   // night lights
+    cloud?: string;      // separate transparent layer
+  };
 }
 
 interface PlanetProps {
@@ -30,7 +38,6 @@ export default function Planet({ data, meshRef }: PlanetProps) {
     // planet sits at y=0, z=0
     setTarget(new THREE.Vector3(distance, 0, 0));
   };
-
   // show/hide marker based on distance from the Sun
   useFrame(() => {
     // Distance from camera to the Sun (origin)
@@ -50,10 +57,36 @@ export default function Planet({ data, meshRef }: PlanetProps) {
     setShowMarker(show);
   });
 
+  // ----- dynamic texture loading based on config -----
+  const colourMap   = data.maps?.color   ? useLoader(TextureLoader, data.maps.color)   : undefined;
+  const bumpMap     = data.maps?.bump    ? useLoader(TextureLoader, data.maps.bump)    : undefined;
+  const normalMap   = data.maps?.normal  ? useLoader(TextureLoader, data.maps.normal)  : undefined;
+  const emissiveMap = data.maps?.emissive? useLoader(TextureLoader, data.maps.emissive): undefined;
+  const cloudMapTex = data.maps?.cloud   ? useLoader(TextureLoader, data.maps.cloud)   : undefined;
+
   return (
     <mesh ref={meshRef} position={[distance, 0, 0]}>
-      <sphereGeometry args={[visRadius, 32, 32]} />
-      <meshStandardMaterial color={color} />
+      <sphereGeometry args={[visRadius, 64, 64]} />
+      <meshStandardMaterial
+        // color={color}
+        map={colourMap}
+        bumpMap={bumpMap} 
+        normalMap={normalMap}
+        emissiveMap={emissiveMap}
+      />
+
+      {/* cloud layer */}
+      {/* {cloudMapTex && (
+        <mesh>
+          <sphereGeometry args={[visRadius * 1.02, 64, 64]} />
+          <meshStandardMaterial
+            map={cloudMapTex}
+            transparent
+            opacity={0.6}
+            depthWrite={false}
+          />
+        </mesh>
+      )} */}
 
       {/* Marker & label rendered as fixed-size HTML */}
       {showMarker && (
