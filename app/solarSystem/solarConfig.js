@@ -29,6 +29,9 @@ export const solarSystem = {
       distance: 0.39 * AU,                 // ~58 units
       orbitPeriod: 88,                     // days
       color: '#b1b1b1',
+      maps: {
+        color: '/textures/mercury/mercury_color.jpg',
+      },
     },
     {
       name: "VENUS",
@@ -36,6 +39,10 @@ export const solarSystem = {
       distance: 0.72 * AU,                 // ~108 units
       orbitPeriod: 225,
       color: '#e7c39b',
+      maps: {
+        color: '/textures/venus/venus_color.jpg',
+        bump: '/textures/venus/venus_bump.jpg',
+      },
     },
     {
       name: "EARTH",
@@ -64,6 +71,11 @@ export const solarSystem = {
       distance: 1.52 * AU,                 // ~227 units
       orbitPeriod: 687,
       color: '#c1440e',
+      maps: {
+        color: '/textures/mars/mars_color.jpg',
+        bump: '/textures/mars/mars_bump.jpg',
+        normal: '/textures/mars/mars_normal.jpg',
+      },
     },
     {
       name: "JUPITER",
@@ -71,6 +83,9 @@ export const solarSystem = {
       distance: 5.2 * AU,                  // ~778 units
       orbitPeriod: 4331,
       color: '#d2b48c',
+      maps: {
+        color: '/textures/jupiter/jupiter_color.jpg',
+      },
     },
     {
       name: "SATURN",
@@ -78,6 +93,9 @@ export const solarSystem = {
       distance: 9.58 * AU,                 // ~1 431 units
       orbitPeriod: 10747,
       color: '#eed8a6',
+      maps: {
+        color: '/textures/saturn/saturn_color.jpg',
+      },
     },
     {
       name: "URANUS",
@@ -85,6 +103,9 @@ export const solarSystem = {
       distance: 19.2 * AU,                 // ~2 873 units
       orbitPeriod: 30589,
       color: '#7ad0e6',
+      maps: {
+        color: '/textures/uranus/uranus_color.jpg',
+      },
     },
     {
       name: "NEPTUNE",
@@ -92,6 +113,9 @@ export const solarSystem = {
       distance: 30.05 * AU,                // ~4 494 units
       orbitPeriod: 59800,
       color: '#4063ff',
+      maps: {
+        color: '/textures/neptune/neptune_color.jpg',
+      },
     },
   ]
 };
