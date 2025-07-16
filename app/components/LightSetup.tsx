@@ -6,14 +6,25 @@ export default function LightsSetup() {
   const { scene } = useThree();
 
   useEffect(() => {
-    const ambient = new THREE.AmbientLight(0xffffff, 1);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.5);
-    dir.position.set(5, 5, 5);
+    // Ambient light for general scene illumination (minimal)
+    const ambient = new THREE.AmbientLight(0xffffff, 0.1);
+    
+    // Sun point light with much higher intensity
+    const sunLight = new THREE.PointLight(0xffd700, 1000, 1000000000000, 1);
+    sunLight.position.set(0, 0, 0); // At Sun's position (origin)
+    
+    // Add shadow capabilities
+    // sunLight.castShadow = true;
+    // sunLight.shadow.bias = -0.001;
+    // sunLight.shadow.mapSize.width = 2048;
+    // sunLight.shadow.mapSize.height = 2048;
 
-    scene.add(ambient, dir);
+    scene.add(ambient);
+    scene.add(sunLight);
 
     return () => {
-      scene.remove(ambient, dir);
+      scene.remove(ambient);
+      scene.remove(sunLight);
     };
   }, [scene]);
 

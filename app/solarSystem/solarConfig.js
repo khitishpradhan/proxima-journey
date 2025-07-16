@@ -23,6 +23,13 @@ export const solarSystem = {
     texture: '/textures/sun/sun.jpg',
   },
   planets: [
+    // {
+    //   name: "DWARF PLANET",
+    //   radius: 88887.3 * SIZE_SCALE,        // ~0.391 units
+    //   distance: 0.29 * AU,                // ~590 units
+    //   orbitPeriod: 90560,                 // days
+    //   color: '#b1b1b1',
+    // },
     {
       name: "MERCURY",
       radius: 2439.7 * SIZE_SCALE,         // ~0.813 units
