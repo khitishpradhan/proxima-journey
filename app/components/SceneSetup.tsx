@@ -8,7 +8,7 @@ export default function SceneSetup() {
     // background
     scene.background = new THREE.Color('black');
     // fog
-    scene.fog = new THREE.Fog('black', 10, 200);
+    // scene.fog = new THREE.Fog('black', 5000, 60000);
   }, [scene]);
   return null;
 }
