@@ -3,12 +3,24 @@ import * as THREE from 'three';
 import { solarSystem, PLANET_VISUAL_SCALE } from './solarConfig';
 import Planet from './components/Planet';
 import OrbitPath from './components/OrbitPath';
+import EphemerisOrbitPath from './components/EphemerisOrbitPath';
 import React, { Suspense } from 'react';
 import { useCamTarget } from './cameraStore';
 import Sun from './celestials/Sun';
 // astronomy-engine: real-time heliocentric positions
 import { Body } from 'astronomy-engine';
 import { getPlanetPosition } from '../../lib/astronomy';
+// Map config names (UPPERCASE) to astronomy-engine Body enum keys (TitleCase)
+const NAME_TO_BODY: Record<string, Body> = {
+  MERCURY: Body.Mercury,
+  VENUS: Body.Venus,
+  EARTH: Body.Earth,
+  MARS: Body.Mars,
+  JUPITER: Body.Jupiter,
+  SATURN: Body.Saturn,
+  URANUS: Body.Uranus,
+  NEPTUNE: Body.Neptune,
+};
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
@@ -59,10 +71,21 @@ export default function SolarSystem({ earthRef }: Props) {
         {/* Orbits & Planets */}
         {solarSystem.planets.map((planet) => {
           const pos = positions[planet.name];
+          // Map display name to astronomy-engine Body
+          const bodyEnum = NAME_TO_BODY[planet.name];
+          console.log(bodyEnum);
           return (
             <React.Fragment key={planet.name}>
-              {/* We can optionally keep OrbitPath for visual aid, but real positions come from astronomy-engine */}
-              {/* <OrbitPath radius={planet.distance} color={planet.color} /> */}
+              {bodyEnum !== undefined && (
+                <EphemerisOrbitPath
+                  body={bodyEnum}
+                  color={planet.color}
+                  periodDays={planet.orbitPeriod}
+                  samples={720}
+                />
+              )}
+
+              
               <Planet
                 data={planet as any}
                 meshRef={planet.name === 'EARTH' ? earthRef : undefined}
