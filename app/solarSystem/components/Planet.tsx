@@ -24,9 +24,10 @@ export interface PlanetData {
 interface PlanetProps {
   data: PlanetData;
   meshRef?: React.RefObject<THREE.Mesh>;
+  overridePosition?: [number, number, number];
 }
 
-export default function Planet({ data, meshRef }: PlanetProps) {
+export default function Planet({ data, meshRef, overridePosition }: PlanetProps) {
   const { radius, distance, color = 'white' } = data;
   const visRadius = Math.max(radius * PLANET_VISUAL_SCALE, 0.3);
   const setTarget = useCamTarget((s) => s.setTarget);
@@ -40,19 +41,21 @@ export default function Planet({ data, meshRef }: PlanetProps) {
   };
   // show/hide marker based on distance from the Sun
   useFrame(() => {
-    // Distance from camera to the Sun (origin)
-    const distFromSun = camera.position.length();
+    // Use actual scene position if provided, otherwise fallback to circular orbit distance
+    const px = overridePosition ? overridePosition[0] : distance;
+    const py = overridePosition ? overridePosition[1] : 0;
+    const pz = overridePosition ? overridePosition[2] : 0;
 
-    // ------- visibility rules --------
-    // 1.  Too close?  hide when within lowerFactor × planetOrbit
-    // 2.  Too far?    hide when beyond upperFactor × planetOrbit
-    // These factors create a band so inner planets vanish first as we zoom out.
+    // distance from Sun (origin) for visibility band
+    const planetRadiusFromSun = Math.sqrt(px*px + py*py + pz*pz);
+    const distFromSunCam = camera.position.length();
+
     const lowerFactor = 0.2;
     const upperFactor = 4;
 
     const show =
-      distFromSun > distance * lowerFactor &&
-      distFromSun < distance * upperFactor;
+      distFromSunCam > planetRadiusFromSun * lowerFactor &&
+      distFromSunCam < planetRadiusFromSun * upperFactor;
 
     setShowMarker(show);
   });
@@ -65,7 +68,7 @@ export default function Planet({ data, meshRef }: PlanetProps) {
   const cloudMapTex = data.maps?.cloud   ? useLoader(TextureLoader, data.maps.cloud)   : undefined;
 
   return (
-    <mesh ref={meshRef} position={[distance, 0, 0]}>
+    <mesh ref={meshRef} position={overridePosition ?? [distance, 0, 0]}>
       <sphereGeometry args={[visRadius, 64, 64]} />
       <meshStandardMaterial
         // color={color}
