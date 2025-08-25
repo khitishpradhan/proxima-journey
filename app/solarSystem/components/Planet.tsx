@@ -36,8 +36,13 @@ export default function Planet({ data, meshRef, overridePosition }: PlanetProps)
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    // planet sits at y=0, z=0
-    setTarget(new THREE.Vector3(distance, 0, 0));
+    // Focus the camera target at the planet's current position
+    if (overridePosition) {
+      const [x, y, z] = overridePosition;
+      setTarget(new THREE.Vector3(x, y, z));
+    } else {
+      setTarget(new THREE.Vector3(distance, 0, 0));
+    }
   };
   // show/hide marker based on distance from the Sun
   useFrame(() => {
