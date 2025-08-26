@@ -6,7 +6,7 @@ import { PLANET_VISUAL_SCALE, solarSystem } from '../solarConfig';
 
 interface SunProps {
     sunRef: React.RefObject<THREE.Mesh>,
-    setTarget: (target: THREE.Vector3) => void
+    setTarget: (target: { position: THREE.Vector3; radius: number; type: string }) => void
 }
 
 export default function Sun({ sunRef, setTarget }: SunProps) {
@@ -51,7 +51,7 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
           style={{ pointerEvents: 'auto', cursor: 'pointer' }}
         >
           <div
-            onClick={() => setTarget(new THREE.Vector3(0, 0, 0))}
+            onClick={() => setTarget({ position: new THREE.Vector3(0, 0, 0), radius: visRadius, type: 'sun' })}
             style={{ position: 'relative', width: 20, height: 20 }}
           >
             <span

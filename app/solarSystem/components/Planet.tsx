@@ -36,12 +36,20 @@ export default function Planet({ data, meshRef, overridePosition }: PlanetProps)
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    // Focus the camera target at the planet's current position
+    // Focus the camera target at the planet's current position with actual radius data
     if (overridePosition) {
       const [x, y, z] = overridePosition;
-      setTarget(new THREE.Vector3(x, y, z));
+      setTarget({
+        position: new THREE.Vector3(x, y, z),
+        radius: visRadius,
+        type: 'planet'
+      });
     } else {
-      setTarget(new THREE.Vector3(distance, 0, 0));
+      setTarget({
+        position: new THREE.Vector3(distance, 0, 0),
+        radius: visRadius,
+        type: 'planet'
+      });
     }
   };
   // show/hide marker based on camera distance to the planet and overall zoom band
