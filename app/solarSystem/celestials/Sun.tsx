@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { Html, useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PLANET_VISUAL_SCALE, solarSystem } from '../solarConfig';
+import { useSunFocusable } from '../hooks/useFocusable';
 
 interface SunProps {
     sunRef: React.RefObject<THREE.Mesh>,
@@ -14,6 +15,14 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
   const [showMarker, setShowMarker] = React.useState(true);
 
   const visRadius = solarSystem.sun.radius * PLANET_VISUAL_SCALE;
+  
+  // Use the new focusable hook
+  const { handleFocus } = useSunFocusable(
+    [0, 0, 0],
+    visRadius,
+    solarSystem.sun.name,
+    'sun'
+  );
   
   const sunTexture = useTexture('/textures/sun/sun.jpg');
 
@@ -51,7 +60,7 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
           style={{ pointerEvents: 'auto', cursor: 'pointer' }}
         >
           <div
-            onClick={() => setTarget({ position: new THREE.Vector3(0, 0, 0), radius: visRadius, type: 'sun' })}
+            onClick={handleFocus}
             style={{ position: 'relative', width: 20, height: 20 }}
           >
             <span

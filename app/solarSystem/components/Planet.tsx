@@ -5,6 +5,7 @@ import { useCamTarget } from '@/solarSystem/cameraStore';
 import { Html } from '@react-three/drei';
 import { useThree, useFrame, useLoader } from '@react-three/fiber';
 import { TextureLoader, LinearFilter } from 'three';
+import { usePlanetFocusable } from '../hooks/useFocusable';
 
 export interface PlanetData {
   name: string;
@@ -30,28 +31,17 @@ interface PlanetProps {
 export default function Planet({ data, meshRef, overridePosition }: PlanetProps) {
   const { radius, distance, color = 'white' } = data;
   const visRadius = Math.max(radius * PLANET_VISUAL_SCALE, 0.3);
-  const setTarget = useCamTarget((s) => s.setTarget);
   const { camera } = useThree();
   const [showMarker, setShowMarker] = React.useState(true);
 
-  const handleClick = (e: any) => {
-    e.stopPropagation();
-    // Focus the camera target at the planet's current position with actual radius data
-    if (overridePosition) {
-      const [x, y, z] = overridePosition;
-      setTarget({
-        position: new THREE.Vector3(x, y, z),
-        radius: visRadius,
-        type: 'planet'
-      });
-    } else {
-      setTarget({
-        position: new THREE.Vector3(distance, 0, 0),
-        radius: visRadius,
-        type: 'planet'
-      });
-    }
-  };
+  // Use the new focusable hook
+  const { handleFocus } = usePlanetFocusable(
+    overridePosition ?? [distance, 0, 0],
+    visRadius,
+    data.name,
+    data.name.toLowerCase()
+  );
+
   // show/hide marker based on camera distance to the planet and overall zoom band
   useFrame(() => {
     // Use actual scene position if provided, otherwise fallback to circular orbit distance
@@ -124,7 +114,7 @@ export default function Planet({ data, meshRef, overridePosition }: PlanetProps)
           style={{ pointerEvents: 'auto', cursor: 'pointer' }}
         >
           <div
-            onClick={handleClick}
+            onClick={handleFocus}
             style={{ position: 'relative', width: 18, height: 18 }}
           >
             <div

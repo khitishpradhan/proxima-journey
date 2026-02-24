@@ -7,6 +7,7 @@ import EphemerisOrbitPath from './components/EphemerisOrbitPath';
 import React, { Suspense } from 'react';
 import { useCamTarget } from './cameraStore';
 import Sun from './celestials/Sun';
+import SmoothCameraController from './components/SmoothCameraController';
 // astronomy-engine: real-time heliocentric positions
 import { Body } from 'astronomy-engine';
 import { getPlanetPosition } from '../../lib/astronomy';
@@ -65,6 +66,9 @@ export default function SolarSystem({ earthRef }: Props) {
   return (
     <Suspense fallback={null}>
       <group>
+        {/* Camera transition controller */}
+        <SmoothCameraController />
+        
         {/* Sun */}
         <Sun sunRef={sunRef} setTarget={setTarget} />
 
