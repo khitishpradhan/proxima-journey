@@ -111,11 +111,14 @@ The goal is to build a **visual simulation of interstellar travel** to demonstra
 - Initial project setup and dependencies.
 - Created basic 3D scene with a moving object and stars.
 - Camera Movement, Automatic(w.r.t ship), Manual(Free Roam).
+- Creating low poly 3D model of our Solar System.
+- Add camera effects and smoother animations.(Focus)
 
 ### 🔲 Next:
-- Add camera effects and smoother animations.
+- Add Destination (Star) and Planets.
+- Enhance Sun Quality. (Shaders)
+- Enhance Earth Quality
 - Space Warp Effects.
-- Creating low poly 3D model of our Solar System.
 
 ---
 

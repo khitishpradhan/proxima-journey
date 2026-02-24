@@ -8,7 +8,9 @@ import StarBackground from './StarBackground';
 import SolarSystem from '../solarSystem/SolarSystem';
 import ShipSim from './ShipSim';
 import SolarOrbitControls from '../solarSystem/SolarOrbitControls';
+import FocusUI from '../solarSystem/components/FocusUI';
 import { useShipSimStore } from './ShipSim/ShipSimStore';
+import { Perf } from 'r3f-perf';
 
 interface Props {
   simulationMode: boolean;
@@ -19,20 +21,26 @@ export default function CanvasScene({ simulationMode }: Props) {
   const isFreeLook = useShipSimStore((s) => s.isFreeLook);
 
   return (
-    <Canvas camera={{ position: [0, 200, 600], near: 0.1, far: 60000 }}>
-      {/* static scene helpers */}
-      <SceneSetup />
-      <LightSetup />
-      <StarBackground />
+    <>
+      {/* Focus UI overlay */}
+      <FocusUI />
+      
+      <Canvas camera={{ position: [0, 200, 600], near: 0.1, far: 60000 }}>
+        <Perf position="top-left" />
+        {/* static scene helpers */}
+        <SceneSetup />
+        <LightSetup />
+        <StarBackground />
 
-      {/* Solar system is always present */}
-      <SolarSystem earthRef={earthRef} />
+        {/* Solar system is always present */}
+        <SolarSystem earthRef={earthRef} />
 
-      {/* Ship simulation overlay */}
-      {simulationMode && <ShipSim earthRef={earthRef} />}
+        {/* Ship simulation overlay */}
+        {simulationMode && <ShipSim earthRef={earthRef} />}
 
-      {/* Scene orbit controls only when simulation inactive */}
-      <SolarOrbitControls enabled={!simulationMode || isFreeLook} />
-    </Canvas>
+        {/* Scene orbit controls only when simulation inactive */}
+        <SolarOrbitControls enabled={!simulationMode || isFreeLook} />
+      </Canvas>
+    </>
   );
 } 

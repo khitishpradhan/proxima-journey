@@ -5,6 +5,7 @@ import { useCamTarget } from '@/solarSystem/cameraStore';
 import { Html } from '@react-three/drei';
 import { useThree, useFrame, useLoader } from '@react-three/fiber';
 import { TextureLoader, LinearFilter } from 'three';
+import { usePlanetFocusable } from '../hooks/useFocusable';
 
 export interface PlanetData {
   name: string;
@@ -30,21 +31,18 @@ interface PlanetProps {
 export default function Planet({ data, meshRef, overridePosition }: PlanetProps) {
   const { radius, distance, color = 'white' } = data;
   const visRadius = Math.max(radius * PLANET_VISUAL_SCALE, 0.3);
-  const setTarget = useCamTarget((s) => s.setTarget);
   const { camera } = useThree();
   const [showMarker, setShowMarker] = React.useState(true);
 
-  const handleClick = (e: any) => {
-    e.stopPropagation();
-    // Focus the camera target at the planet's current position
-    if (overridePosition) {
-      const [x, y, z] = overridePosition;
-      setTarget(new THREE.Vector3(x, y, z));
-    } else {
-      setTarget(new THREE.Vector3(distance, 0, 0));
-    }
-  };
-  // show/hide marker based on distance from the Sun
+  // Use the new focusable hook
+  const { handleFocus } = usePlanetFocusable(
+    overridePosition ?? [distance, 0, 0],
+    visRadius,
+    data.name,
+    data.name.toLowerCase()
+  );
+
+  // show/hide marker based on camera distance to the planet and overall zoom band
   useFrame(() => {
     // Use actual scene position if provided, otherwise fallback to circular orbit distance
     const px = overridePosition ? overridePosition[0] : distance;
@@ -52,15 +50,25 @@ export default function Planet({ data, meshRef, overridePosition }: PlanetProps)
     const pz = overridePosition ? overridePosition[2] : 0;
 
     // distance from Sun (origin) for visibility band
-    const planetRadiusFromSun = Math.sqrt(px*px + py*py + pz*pz);
+    const planetRadiusFromSun = Math.sqrt(px * px + py * py + pz * pz);
     const distFromSunCam = camera.position.length();
 
-    const lowerFactor = 0.2;
-    const upperFactor = 4;
+    // compute camera-to-planet distance in world space
+    const camToPlanet = camera.position.distanceTo(new THREE.Vector3(px, py, pz));
 
-    const show =
-      distFromSunCam > planetRadiusFromSun * lowerFactor &&
-      distFromSunCam < planetRadiusFromSun * upperFactor;
+    // tweakable thresholds
+    // - nearMultiplier: hide marker when closer than this many visual radii
+    // - farBandLower/Upper: optional band relative to planet's solar radius
+    const nearMultiplier = 100; // increase to hide only when even closer
+    const farBandLower = 0.2; // keep marker hidden when very zoomed-in near Sun
+    const farBandUpper = 4;   // hide marker when very far from the planet's orbit
+
+    const nearThreshold = visRadius * nearMultiplier;
+    const withinFarBand =
+      distFromSunCam > planetRadiusFromSun * farBandLower &&
+      distFromSunCam < planetRadiusFromSun * farBandUpper;
+
+    const show = camToPlanet > nearThreshold && withinFarBand;
 
     setShowMarker(show);
   });
@@ -106,7 +114,7 @@ export default function Planet({ data, meshRef, overridePosition }: PlanetProps)
           style={{ pointerEvents: 'auto', cursor: 'pointer' }}
         >
           <div
-            onClick={handleClick}
+            onClick={handleFocus}
             style={{ position: 'relative', width: 18, height: 18 }}
           >
             <div
