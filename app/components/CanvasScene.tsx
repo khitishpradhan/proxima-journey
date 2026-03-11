@@ -2,6 +2,7 @@
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import * as THREE from 'three';
+import { EffectComposer, SelectiveBloom } from '@react-three/postprocessing';
 import SceneSetup from './SceneSetup';
 import LightSetup from './LightSetup';
 import StarBackground from './StarBackground';
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function CanvasScene({ simulationMode }: Props) {
+  const sunRef = useRef<THREE.Mesh>(null!);
   const earthRef = useRef<THREE.Mesh>(null!);
   const isFreeLook = useShipSimStore((s) => s.isFreeLook);
 
@@ -33,13 +35,26 @@ export default function CanvasScene({ simulationMode }: Props) {
         <StarBackground />
 
         {/* Solar system is always present */}
-        <SolarSystem earthRef={earthRef} />
+        <SolarSystem earthRef={earthRef} sunRef={sunRef}/>
 
         {/* Ship simulation overlay */}
         {simulationMode && <ShipSim earthRef={earthRef} />}
 
         {/* Scene orbit controls only when simulation inactive */}
         <SolarOrbitControls enabled={!simulationMode || isFreeLook} />
+
+        {/* Postprocessing glow/bloom for bright emissive objects like the sun */}
+        <EffectComposer multisampling={0}>
+        {sunRef.current && (
+          <SelectiveBloom
+            selection={[sunRef.current]}
+            intensity={1.6}
+            luminanceThreshold={0}
+            luminanceSmoothing={0.85}
+            radius={0.7}
+          />
+        )}
+        </EffectComposer>
       </Canvas>
     </>
   );

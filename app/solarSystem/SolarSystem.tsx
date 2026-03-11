@@ -25,10 +25,10 @@ const NAME_TO_BODY: Record<string, Body> = {
 
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
+  sunRef: React.RefObject<THREE.Mesh>;
 }
 
-export default function SolarSystem({ earthRef }: Props) {
-  const sunRef = useRef<THREE.Mesh>(null!);
+export default function SolarSystem({ earthRef, sunRef }: Props) {
   const setTarget = useCamTarget((s)=>s.setTarget);
 
   // Bodies we render using astronomy-engine
