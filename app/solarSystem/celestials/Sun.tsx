@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
@@ -53,9 +53,7 @@ const SunSurfaceMaterial = shaderMaterial(
       vec3 coreLight = coreColor * core * 1.5;
       vec3 rimLight  = rimColor * rim * 2.5;
 
-      vec3 col = (coreLight + rimLight) * uIntensity;
-
-      col = clamp(col, 0.0, 4.0);
+      vec3 col = (coreLight + rimLight) * uIntensity * 3.0;
 
       gl_FragColor = vec4(col, 1.0);
     }
@@ -112,9 +110,10 @@ void main() {
 interface SunProps {
   sunRef: React.RefObject<THREE.Mesh>;
   setTarget: (target: { position: THREE.Vector3; radius: number; type: string }) => void;
+  setBloomSelection: (objects: THREE.Object3D[]) => void;
 }
 
-export default function Sun({ sunRef, setTarget }: SunProps) {
+export default function Sun({ setTarget, sunRef, setBloomSelection }: SunProps) {
   const { camera } = useThree();
   const [showMarker, setShowMarker] = React.useState(true);
   const [highDetail, setHighDetail] = React.useState(true);
@@ -142,12 +141,17 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
   const surfaceMatRef = React.useRef<THREE.ShaderMaterial>(surfaceMaterial);
   const coronaMatRef = React.useRef<THREE.ShaderMaterial>(coronaMaterial);
 
+  const sunPos = useMemo(() => new THREE.Vector3(0, 0, 0), []);
+
   useFrame((_, delta) => {
-    const sunPos = new THREE.Vector3(0, 0, 0);
     const dist = camera.position.distanceTo(sunPos);
 
     // Marker visibility
-    setShowMarker(dist > visRadius * 10 && dist < visRadius * 10000);
+    const markerVisible = dist > visRadius * 10 && dist < visRadius * 10000;
+
+    if (markerVisible !== showMarker) {
+      setShowMarker(markerVisible);
+    }
 
     // Distance-based LOD for heavy effects
     const shouldHighDetail = dist < visRadius * 8000;
@@ -170,24 +174,32 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
 
   // Rotate sun slowly
   useEffect(() => {
-    if (!sunRef.current) return;
-    const sun = sunRef.current;
+    const sunMesh = sunRef.current;
+    if (!sunMesh) return;
     let frame: number;
     const rot = () => {
-      sun.rotation.y += 0.001;
+      sunMesh.rotation.y += 0.001;
       frame = requestAnimationFrame(rot);
     };
     frame = requestAnimationFrame(rot);
     return () => cancelAnimationFrame(frame);
-  }, [sunRef]);
+  }, []);
+
+  useEffect(() => {
+    if (sunRef.current) {
+      setBloomSelection([sunRef.current])
+    }
+  }, [])
 
   return (
     <group position={[0, 0, 0]}>
+
       {/* Core sun sphere */}
       <mesh ref={sunRef}>
         <sphereGeometry args={[visRadius, 64, 64]} />
         <primitive object={surfaceMaterial} ref={surfaceMatRef} attach="material" />
       </mesh>
+
 
       {/* Outer corona shell (only when in high detail range) */}
       {highDetail && (
@@ -203,6 +215,7 @@ export default function Sun({ sunRef, setTarget }: SunProps) {
           />
         </mesh>
       )}
+
 
       {/* Clickable label marker near the sun's center */}
       {showMarker && (

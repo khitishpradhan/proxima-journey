@@ -26,9 +26,10 @@ const NAME_TO_BODY: Record<string, Body> = {
 interface Props {
   earthRef: React.RefObject<THREE.Mesh>;
   sunRef: React.RefObject<THREE.Mesh>;
+  setBloomSelection: (objects: THREE.Object3D[]) => void;
 }
 
-export default function SolarSystem({ earthRef, sunRef }: Props) {
+export default function SolarSystem({ earthRef, sunRef, setBloomSelection }: Props) {
   const setTarget = useCamTarget((s)=>s.setTarget);
 
   // Bodies we render using astronomy-engine
@@ -70,14 +71,14 @@ export default function SolarSystem({ earthRef, sunRef }: Props) {
         <SmoothCameraController />
         
         {/* Sun */}
-        <Sun sunRef={sunRef} setTarget={setTarget} />
+        <Sun sunRef={sunRef} setTarget={setTarget} setBloomSelection={setBloomSelection}/>
 
         {/* Orbits & Planets */}
         {solarSystem.planets.map((planet) => {
           const pos = positions[planet.name];
           // Map display name to astronomy-engine Body
           const bodyEnum = NAME_TO_BODY[planet.name];
-          console.log(bodyEnum);
+          
           return (
             <React.Fragment key={planet.name}>
               {bodyEnum !== undefined && (
