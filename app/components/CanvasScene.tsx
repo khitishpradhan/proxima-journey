@@ -12,7 +12,7 @@ import ShipSim from './ShipSim';
 import SolarOrbitControls from '../solarSystem/SolarOrbitControls';
 import FocusUI from '../solarSystem/components/FocusUI';
 import { useShipSimStore } from './ShipSim/ShipSimStore';
-import { Perf } from 'r3f-perf';
+import { Perf } from '@vibegameengine/r3f-perf';
 
 interface Props {
   simulationMode: boolean;
