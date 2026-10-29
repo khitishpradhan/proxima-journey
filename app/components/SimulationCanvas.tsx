@@ -5,7 +5,7 @@ import { Stars } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 import SceneSetup from './SceneSetup';
-import LightsSetup from './LightSetup';
+import LightsSetup from './LightsSetup';
 import ShipController from './ShipController';
 import CameraController from './CameraController';
 import ManualControls from './ManualControls';
